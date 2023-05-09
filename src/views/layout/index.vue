@@ -3,7 +3,7 @@
     <SiderBar />
     <a-layout>
       <NavBar />
-      <a-layout-content style="margin: 16px">
+      <a-layout-content>
         <AppMain />
       </a-layout-content>
       <!-- 底部信息 -->
@@ -12,10 +12,10 @@
   </a-layout>
 </template>
 <script lang="ts" setup>
-import AppMain from "./components/AppMain.vue";
-import SiderBar from "./components/SiderBar/index.vue";
-import NavBar from "./components/Navbar.vue";
-import Footer from "./components/Footer.vue";
+import AppMain from './components/AppMain.vue'
+import SiderBar from './components/SiderBar/index.vue'
+import NavBar from './components/Navbar.vue'
+import Footer from './components/Footer.vue'
 </script>
 <style scoped lang="scss">
 .logo {
@@ -27,7 +27,7 @@ import Footer from "./components/Footer.vue";
 .site-layout .site-layout-background {
   background: #fff;
 }
-[data-theme="dark"] .site-layout .site-layout-background {
+[data-theme='dark'] .site-layout .site-layout-background {
   background: #141414;
 }
 </style>

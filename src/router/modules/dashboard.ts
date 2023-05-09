@@ -6,13 +6,13 @@ export default [
     path: '/dashboard',
     name: 'layout',
     component: Layout,
-    meta: { title: '控制台', icon: PieChartOutlined },
+    meta: { title: 'dashboard', icon: PieChartOutlined },
     children: [
       {
         path: '/index',
         name: 'dashboard',
         component: () => import('@/views/dashboard/index.vue'),
-        meta: { title: '首页' },
+        meta: { title: '工作台' },
       },
       {
         path: '/a',

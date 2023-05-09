@@ -1,105 +1,202 @@
 <template>
-  <div class="form-content">
-    <div class="form-wrap">
-      <a-form
-        :model="form"
-        :label-col="{ span: 6 }"
-        :wrapper-col="{ span: 16 }"
-        @finish="onFinish"
-        @finishFailed="onFinishFailed"
-      >
-        <h1 class="mb-6 pt-12 text-center">后台管理系统</h1>
-        <a-form-item
-          :rules="[{ required: true, message: 'Please input your username!' }]"
-          label="用户名"
-          name="username"
+  <div class="login-container">
+    <div class="login-content">
+      <div class="header flex justify-center items-center">
+        <img src="https://preview.pro.ant.design/logo.svg" alt="logo" class="logo" />
+        <span class="ml-4">登陆</span>
+      </div>
+      <div class="tips text-center mt-2">中小型后台解决方案</div>
+      <div class="login-box mt-6">
+        <a-tabs v-model:activeKey="activeKey" centered>
+          <a-tab-pane key="1" tab="账号密码登陆"></a-tab-pane>
+          <a-tab-pane key="2" tab="手机号登陆"></a-tab-pane>
+        </a-tabs>
+        <a-form
+          :model="formState"
+          name="basic"
+          :wrapper-col="{ span: 24 }"
+          autocomplete="off"
+          @finish="onFinish"
+          @finishFailed="onFinishFailed"
         >
-          <a-input v-model:value="form.username" placeholder="用户名随便输"></a-input>
-        </a-form-item>
-        <a-form-item :rules="[{ required: true, message: 'Please input your password!' }]" label="密码" name="password">
-          <a-input-password v-model:value="form.password" placeholder="密码随便输"></a-input-password>
-        </a-form-item>
-        <a-form-item :wrapper-col="{ offset: 2, span: 20 }">
-          <a-button :loading="loading" class="w-full" html-type="submit">Submit</a-button>
-        </a-form-item>
-      </a-form>
+          <template v-if="activeKey === '1'">
+            <a-form-item name="username" :rules="[{ required: true, message: '请输入用户名!' }]">
+              <a-input v-model:value="formState.username" placeholder="用户名: admin or user">
+                <template #prefix> <UserOutlined class="site-form-item-icon" /> </template
+              ></a-input>
+            </a-form-item>
+
+            <a-form-item name="password" :rules="[{ required: true, message: '请输入密码!' }]">
+              <a-input-password v-model:value="formState.password" placeholder="密码: 123456">
+                <template #prefix>
+                  <LockOutlined class="site-form-item-icon" />
+                </template>
+              </a-input-password>
+            </a-form-item>
+          </template>
+          <template v-else>
+            <a-form-item name="mobile" :rules="[{ required: true, message: '请输入手机号!' }]">
+              <a-input v-model:value="formState.mobile" placeholder="请输入手机号!">
+                <template #prefix> <MobileOutlined class="site-form-item-icon" /> </template
+              ></a-input>
+            </a-form-item>
+            <a-form-item
+              name="msgCode"
+              :wrapper-col="{ span: 24 }"
+              :rules="[{ required: true, message: '请输入验证码!' }]"
+            >
+              <div class="flex justify-between items-center">
+                <a-input v-model:value="formState.msgCode" placeholder="请输入验证码!">
+                  <template #prefix> <LockOutlined class="site-form-item-icon" /> </template
+                ></a-input>
+                <a-button
+                  class="ml-2"
+                  style="height: 40px"
+                  :loading="msgLoading"
+                  :disabled="time !== 60"
+                  @click="sendMsg"
+                >
+                  {{ time === 60 ? `获取验证码` : `${time}s后重新获取` }}</a-button
+                >
+              </div>
+            </a-form-item>
+          </template>
+
+          <a-form-item name="remember" :wrapper-col="{ span: 24 }">
+            <div class="flex justify-between items-center">
+              <a-checkbox v-model:checked="formState.remember">自动登陆</a-checkbox>
+              <a class="login-form-forgot" href="javascript:void(0)">忘记密码?</a>
+            </div>
+          </a-form-item>
+
+          <a-form-item :wrapper-col="{ span: 24 }">
+            <a-button :loading="loading" class="w-full" style="height: 40px" type="primary" html-type="submit"
+              >登陆</a-button
+            >
+          </a-form-item>
+          <a-form-item :wrapper-col="{ span: 24 }">
+            <div class="flex items-center">
+              <span class="tips mr-2">其他登陆方式: </span>
+              <div class="icon-list">
+                <alipay-circle-outlined
+                  class="cursor-pointer mr-2"
+                  :style="{ fontSize: '24px', color: 'rgba(0,0,0,.2)' }"
+                />
+                <taobao-circle-outlined
+                  class="cursor-pointer mr-2"
+                  :style="{ fontSize: '24px', color: 'rgba(0,0,0,.2)' }"
+                />
+                <weibo-circle-outlined
+                  class="cursor-pointer mr-2"
+                  :style="{ fontSize: '24px', color: 'rgba(0,0,0,.2)' }"
+                />
+              </div>
+            </div>
+          </a-form-item>
+        </a-form>
+      </div>
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
+<script lang="ts" setup>
 import { message } from 'ant-design-vue'
-import type { LocationQuery } from 'vue-router'
-const loading = ref<boolean>(false)
-const form = reactive<{ username: string; password: string }>({
+import {
+  UserOutlined,
+  LockOutlined,
+  MobileOutlined,
+  AlipayCircleOutlined,
+  TaobaoCircleOutlined,
+  WeiboCircleOutlined,
+} from '@ant-design/icons-vue'
+const activeKey = ref('1')
+interface IFormState {
+  username: string
+  password: string
+  mobile: string
+  msgCode: string
+  remember: boolean
+}
+const formState = reactive<IFormState>({
   username: '',
   password: '',
+  mobile: '',
+  msgCode: '',
+  remember: true,
 })
-const route = useRoute()
 const router = useRouter()
-const onFinish = (values: any) => {
-  console.log('Success:', values)
+const loading = ref(false)
+const onFinish = (values: IFormState) => {
   loading.value = true
+  const { username, password } = values
   setTimeout(() => {
-    const query = route.query
-    let redirect = ''
-    let otherQuery = {}
-    if (query) {
-      redirect = query.redirect as string
-      otherQuery = getOtherQuery(query)
-    }
-    router.replace({ path: redirect || '/', query: otherQuery }).then(() => {
-      message.success('登录成功')
-    })
     loading.value = false
+
+    if (activeKey.value === '1') {
+      if (!['admin', 'user'].includes(username) || password !== '123456') {
+        return message.error('用户名或密码错误')
+      }
+    }
+    localStorage.setItem('token', 'admin')
+    router.push('/')
   }, 500)
 }
 
 const onFinishFailed = (errorInfo: any) => {
   console.log('Failed:', errorInfo)
 }
-const getOtherQuery = (query: LocationQuery) => {
-  return Object.keys(query).reduce((acc, cur) => {
-    if (cur !== 'redirect') {
-      acc[cur] = query[cur]
-    }
-    return acc
-  }, {} as LocationQuery)
+const msgLoading = ref(false)
+const time = ref(60)
+const timer = ref(0)
+const sendMsg = () => {
+  msgLoading.value = true
+  setTimeout(() => {
+    message.success('短信已发送至手机,请注意查收!')
+    msgLoading.value = false
+    time.value--
+    timer.value = window.setInterval(() => {
+      time.value--
+      if (time.value <= 0) {
+        clearInterval(timer.value)
+        time.value = 60
+      }
+    }, 1000)
+  }, 1000)
 }
 </script>
-
 <style lang="scss" scoped>
-.form-content {
-  width: 100vw;
+.login-container {
+  width: 100%;
   height: 100vh;
-  background: #291a5e;
-  position: relative;
-
-  .form-wrap {
-    width: 370px;
-    height: 300px;
+  background-color: #f0f2f5;
+  .login-content {
+    width: 328px;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    border-radius: 10px;
-    background: linear-gradient(to bottom, rgb(164, 60, 246), rgb(0, 184, 249));
-    padding: 2px;
-
-    :deep(.a-form) {
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(to bottom, rgb(30, 22, 75), rgb(43, 26, 97));
-      border-radius: 10px;
-
-      h1 {
-        font-size: 24px;
-        text-align: center;
-        color: #fff;
+    ::v-deep(.ant-tabs-nav)::before {
+      border: 1px solid #e2e4e7;
+    }
+    .header {
+      .logo {
+        width: 44px;
+        height: 44px;
       }
-
-      .a-input {
-        width: 250px;
+      span {
+        font-size: 33px;
+        color: #000;
+        font-weight: 600;
+      }
+    }
+    ::v-deep(.ant-input) {
+      height: 32px;
+    }
+    .tips {
+      color: rgba(0, 0, 0, 0.5);
+    }
+    .icon-list {
+      .anticon:hover {
+        color: #1890ff !important;
       }
     }
   }

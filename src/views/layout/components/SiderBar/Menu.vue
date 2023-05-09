@@ -2,7 +2,6 @@
   <a-menu
     v-model:selectedKeys="selectedKeys"
     v-model:openKeys="openKeys"
-    theme="dark"
     mode="inline"
     @openChange="openChange"
     @click="menuClick"

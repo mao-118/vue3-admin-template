@@ -1,5 +1,5 @@
 <template>
-  <a-layout-sider v-model:collapsed="collapsed" collapsible>
+  <a-layout-sider v-model:collapsed="collapsed" theme="light" collapsible>
     <div class="logo" />
     <Menu />
   </a-layout-sider>
@@ -8,3 +8,10 @@
 import Menu from './Menu.vue'
 const collapsed = ref<boolean>(false)
 </script>
+<style scoped>
+.logo {
+  height: 31px;
+  background: rgba(0, 0, 0, 0.2);
+  margin: 16px;
+}
+</style>
