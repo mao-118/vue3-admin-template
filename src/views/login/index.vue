@@ -137,7 +137,9 @@ const onFinish = (values: IFormState) => {
       }
     }
     localStorage.setItem('token', 'admin')
-    router.push('/')
+    router.push('/').then(() => {
+      message.success('登陆成功!')
+    })
   }, 500)
 }
 

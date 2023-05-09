@@ -1,6 +1,6 @@
 <template>
   <a-layout-sider v-model:collapsed="collapsed" theme="light" collapsible>
-    <div class="logo" />
+    <div class="logo">管理后台</div>
     <Menu />
   </a-layout-sider>
 </template>
@@ -10,8 +10,9 @@ const collapsed = ref<boolean>(false)
 </script>
 <style scoped>
 .logo {
-  height: 31px;
-  background: rgba(0, 0, 0, 0.2);
-  margin: 16px;
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 10px;
 }
 </style>
