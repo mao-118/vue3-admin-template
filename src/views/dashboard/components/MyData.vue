@@ -12,7 +12,6 @@ const options = reactive<echarts.EChartsOption>({
     text: '',
   },
   tooltip: {
-    show: true,
     trigger: 'item',
   },
   legend: {
@@ -21,12 +20,12 @@ const options = reactive<echarts.EChartsOption>({
   radar: {
     shape: 'circle',
     indicator: [
-      { name: 'Sales', max: 6500 },
-      { name: 'Administration', max: 16000 },
-      { name: 'Information Technology', max: 30000 },
-      { name: 'Customer Support', max: 38000 },
-      { name: 'Development', max: 52000 },
-      { name: 'Marketing', max: 25000 },
+      { name: 'Sales' },
+      { name: 'Administration' },
+      { name: 'Information Technology' },
+      { name: 'Customer Support' },
+      { name: 'Development' },
+      { name: 'Marketing' },
     ],
     splitArea: {
       areaStyle: {
