@@ -135,6 +135,7 @@ const data = ref<any[]>([
 ])
 const router = useRouter()
 const logout = () => {
+  localStorage.removeItem('token')
   router.push('/login')
 }
 
@@ -145,7 +146,7 @@ const handleChange = (val: string) => {
   console.log(val)
   value.value = val
 }
-const show = ref(false)
+const show = ref(true)
 const showSearch = () => {
   show.value = !show.value
 }
@@ -165,7 +166,7 @@ for (let index = 0; index < 5; index++) {
 }
 
 const visible = ref(false)
-const visibleChange = (e) => {
+const visibleChange = (e: boolean) => {
   visible.value = e
 }
 </script>

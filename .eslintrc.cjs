@@ -6,7 +6,7 @@ module.exports = {
   parser: 'vue-eslint-parser',
   extends: [
     './.eslintrc-auto-import.json',
-    'standard', // standard风格
+    'standard-with-typescript', // standard风格
     'plugin:vue/vue3-recommended', // eslint-plugin-vue 风格规范
     'plugin:@typescript-eslint/recommended', // ts风格
     'plugin:prettier/recommended', // 配置prettier风格插件

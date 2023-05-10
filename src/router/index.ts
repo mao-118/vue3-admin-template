@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { routes } from './installRoute'
-
+import NProgress from '@/plugins/nprogress'
 const router = createRouter({
   history: createWebHashHistory(),
   scrollBehavior() {
@@ -30,13 +30,26 @@ const router = createRouter({
   ],
 })
 router.beforeResolve((to, form, next) => {
-  console.log({ form })
-  document.title = (to.meta.title as string) || '默认标题'
+  NProgress.start()
+  document.title = `后台管理系统 | ${(to.meta.title as string) || '默认标题'}`
+  const token = localStorage.getItem('token')
+  // if(whiteList.includes(to.path)){ //路由白名单直接放行
+  //   NProgress.done()
+  //   return next()
+  // }
+  if (to.path === '/login' && token) {
+    NProgress.done()
+    return next('/')
+  }
+  if (to.path !== '/login' && !token) {
+    NProgress.done()
+    return next('/login')
+  }
   next()
 })
 
 router.afterEach((to) => {
-  console.log({ to })
+  NProgress.done()
 })
 
 export default router

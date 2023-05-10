@@ -24,6 +24,7 @@
 </template>
 <script lang="ts" setup>
 import MenuItem from './MenuItem.vue'
+
 defineProps({
   route: {
     required: true,
@@ -31,7 +32,7 @@ defineProps({
     default: () => ({}),
   },
 })
-const showSubMenu = (route) => {
+const showSubMenu = (route: any) => {
   /**
    * 1. 是否设置 hidden 是否设置hasOnlyOneChildren 并且children.length===1(优先级大)
    * 2. 是否设置hideen 并且子路由存在则渲染
