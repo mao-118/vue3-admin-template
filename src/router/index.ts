@@ -32,7 +32,7 @@ const router = createRouter({
 router.beforeResolve((to, form, next) => {
   NProgress.start()
   document.title = `后台管理系统 | ${(to.meta.title as string) || '默认标题'}`
-  const token = localStorage.getItem('token')
+  const token = JSON.parse(localStorage.getItem('userStore') as string).userInfo.token
   // if(whiteList.includes(to.path)){ //路由白名单直接放行
   //   NProgress.done()
   //   return next()

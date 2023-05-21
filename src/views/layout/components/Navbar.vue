@@ -119,6 +119,7 @@
   </a-layout-header>
 </template>
 <script lang="ts" setup>
+import { useUserStore } from '@/store'
 import Breadcrumb from './Breadcrumb.vue'
 import {
   UserOutlined,
@@ -134,8 +135,9 @@ const data = ref<any[]>([
   { value: 2, label: 'React' },
 ])
 const router = useRouter()
+const userStore = useUserStore()
 const logout = () => {
-  localStorage.removeItem('token')
+  userStore.setUserInfo({ name: '', token: '' })
   router.push('/login')
 }
 

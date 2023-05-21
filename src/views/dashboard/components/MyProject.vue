@@ -17,3 +17,9 @@
     </a-card>
   </div>
 </template>
+<style scoped>
+.ant-card-grid {
+  cursor: pointer;
+  padding: 15px 20px;
+}
+</style>

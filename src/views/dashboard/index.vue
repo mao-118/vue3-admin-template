@@ -10,7 +10,7 @@
         </a-avatar>
         <div class="info flex flex-col ml-4 justify-center">
           <span class="mb-2 text-2xl">早安,吴彦祖,祝你开心每一天!</span>
-          <span class="text-gray-500">前端专家|xx部门-xx公司</span>
+          <span class="text-gray-500">前端专家 | xx部门-xx公司</span>
         </div>
       </div>
       <div class="right">

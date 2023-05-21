@@ -99,6 +99,7 @@
   </div>
 </template>
 <script lang="ts" setup>
+import { useUserStore } from '@/store'
 import { message } from 'ant-design-vue'
 import {
   UserOutlined,
@@ -123,6 +124,7 @@ const formState = reactive<IFormState>({
   msgCode: '',
   remember: true,
 })
+const userStore = useUserStore()
 const router = useRouter()
 const loading = ref(false)
 const onFinish = (values: IFormState) => {
@@ -136,7 +138,7 @@ const onFinish = (values: IFormState) => {
         return message.error('用户名或密码错误')
       }
     }
-    localStorage.setItem('token', 'admin')
+    userStore.setUserInfo({ name: 'admin', token: 'kkkk-kkk' })
     router.push('/').then(() => {
       message.success('登陆成功!')
     })
