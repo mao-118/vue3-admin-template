@@ -8,8 +8,8 @@
       <div class="tips text-center mt-2">中小型后台解决方案</div>
       <div class="login-box mt-6">
         <a-tabs v-model:activeKey="activeKey" centered>
-          <a-tab-pane key="1" tab="账号密码登陆"></a-tab-pane>
-          <a-tab-pane key="2" tab="手机号登陆"></a-tab-pane>
+          <a-tab-pane :key="1" tab="账号密码登陆"></a-tab-pane>
+          <a-tab-pane :key="2" tab="手机号登陆"></a-tab-pane>
         </a-tabs>
         <a-form
           :model="formState"
@@ -19,7 +19,7 @@
           @finish="onFinish"
           @finishFailed="onFinishFailed"
         >
-          <template v-if="activeKey === '1'">
+          <template v-if="activeKey === 1">
             <a-form-item name="username" :rules="[{ required: true, message: '请输入用户名!' }]">
               <a-input v-model:value="formState.username" placeholder="用户名: admin or user">
                 <template #prefix> <UserOutlined class="site-form-item-icon" /> </template
@@ -101,6 +101,9 @@
 <script lang="ts" setup>
 import { useUserStore } from '@/store'
 import { message } from 'ant-design-vue'
+import { ILogin } from './type'
+import { loginApi } from '@/api/user'
+import { getTime } from '@/utils'
 import {
   UserOutlined,
   LockOutlined,
@@ -109,7 +112,7 @@ import {
   TaobaoCircleOutlined,
   WeiboCircleOutlined,
 } from '@ant-design/icons-vue'
-const activeKey = ref('1')
+const activeKey = ref(1)
 interface IFormState {
   username: string
   password: string
@@ -130,19 +133,17 @@ const loading = ref(false)
 const onFinish = (values: IFormState) => {
   loading.value = true
   const { username, password } = values
-  setTimeout(() => {
-    loading.value = false
-
-    if (activeKey.value === '1') {
-      if (!['admin', 'user'].includes(username) || password !== '123456') {
-        return message.error('用户名或密码错误')
-      }
-    }
-    userStore.setUserInfo({ name: 'admin', token: 'kkkk-kkk' })
-    router.push('/').then(() => {
-      message.success('登陆成功!')
+  const loginForm: ILogin = { username, password, type: activeKey.value }
+  setTimeout(async () => {
+    const { data } = await loginApi<ILogin>(loginForm).finally(() => {
+      loading.value = false
     })
-  }, 500)
+    userStore.setUserInfo(data)
+    const msg = getTime()
+    router.push('/').then(() => {
+      message.success(`${msg}，欢迎你${data.username}！`)
+    })
+  }, 1000)
 }
 
 const onFinishFailed = (errorInfo: any) => {

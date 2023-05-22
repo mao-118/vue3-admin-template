@@ -119,6 +119,7 @@
   </a-layout-header>
 </template>
 <script lang="ts" setup>
+import { logoutApi } from '@/api/user'
 import { useUserStore } from '@/store'
 import Breadcrumb from './Breadcrumb.vue'
 import {
@@ -129,6 +130,7 @@ import {
   LogoutOutlined,
   SettingOutlined,
 } from '@ant-design/icons-vue'
+import { message } from 'ant-design-vue'
 const value = ref()
 const data = ref<any[]>([
   { value: 1, label: 'Vue' },
@@ -136,9 +138,12 @@ const data = ref<any[]>([
 ])
 const router = useRouter()
 const userStore = useUserStore()
-const logout = () => {
-  userStore.setUserInfo({ name: '', token: '' })
-  router.push('/login')
+const logout = async () => {
+  await logoutApi()
+  userStore.setUserInfo({ username: '', token: '' })
+  router.push('/login').then(() => {
+    message.success('退出成功!')
+  })
 }
 
 const handleSearch = (val: string) => {

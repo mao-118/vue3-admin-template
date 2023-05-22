@@ -1,24 +1,19 @@
 import { defineStore } from 'pinia'
 interface IUser {
-  name: string
+  username: string
   token: string
 }
-export default defineStore(
-  'userStore',
-  () => {
-    const userInfo = ref<IUser>({
-      name: '',
-      token: '',
-    })
-    const setUserInfo = (info: IUser) => {
-      userInfo.value = info
-    }
+export default defineStore('userStore', {
+  state: () => {
     return {
-      userInfo,
-      setUserInfo,
+      userInfo: JSON.parse(localStorage.getItem('userInfo') as string) || { username: '', token: '' },
     }
   },
-  {
-    persist: true, //开启持久化
-  }
-)
+  persist: true,
+  actions: {
+    setUserInfo(info: IUser) {
+      this.userInfo = info
+      localStorage.setItem('userInfo', JSON.stringify(info))
+    },
+  },
+})

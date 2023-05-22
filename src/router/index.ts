@@ -1,6 +1,8 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { routes } from './installRoute'
 import NProgress from '@/plugins/nprogress'
+import { pinia, useUserStore } from '@/store'
+const userStore = useUserStore(pinia)
 const router = createRouter({
   history: createWebHashHistory(),
   scrollBehavior() {
@@ -32,7 +34,7 @@ const router = createRouter({
 router.beforeResolve((to, form, next) => {
   NProgress.start()
   document.title = `后台管理系统 | ${(to.meta.title as string) || '默认标题'}`
-  const token = JSON.parse(localStorage.getItem('userStore') as string).userInfo.token
+  const token = userStore.userInfo.token
   // if(whiteList.includes(to.path)){ //路由白名单直接放行
   //   NProgress.done()
   //   return next()

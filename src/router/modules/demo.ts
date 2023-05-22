@@ -42,5 +42,11 @@ export default {
       meta: { title: '用户媒体' },
       component: () => import('@/views/demo/userMedia.vue'),
     },
+    {
+      path: '/demo/svgIcon',
+      name: 'svgIcon',
+      meta: { title: 'svgIcon' },
+      component: () => import('@/views/demo/svgIcon.vue'),
+    },
   ],
 }
