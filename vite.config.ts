@@ -7,7 +7,7 @@ import Components from 'unplugin-vue-components/vite'
 // gzip压缩
 import compressPlugin from 'vite-plugin-compression'
 // 组件按需加载
-import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
+import { AntDesignVueResolver, ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 // 自动导入组合api
 import AutoImport from 'unplugin-auto-import/vite'
 // 代码分析
@@ -30,7 +30,7 @@ export default ({ command }: ConfigEnv): UserConfigExport => {
       viteMockServe({
         localEnabled: command === 'serve',
       }),
-      Components({ resolvers: [AntDesignVueResolver()] }),
+      Components({ resolvers: [AntDesignVueResolver(), ElementPlusResolver()] }),
       AutoImport({
         // https://github.com/antfu/unplugin-auto-import
         dts: true,

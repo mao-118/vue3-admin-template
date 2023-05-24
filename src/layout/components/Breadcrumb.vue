@@ -1,7 +1,7 @@
 <template>
-  <a-breadcrumb style="margin: 16px 0">
-    <a-breadcrumb-item v-for="item in routeList" :key="item.path">{{ item.title }}</a-breadcrumb-item>
-  </a-breadcrumb>
+  <el-breadcrumb separator="/">
+    <el-breadcrumb-item v-for="item in routeList" :key="item.path">{{ item.title }}</el-breadcrumb-item>
+  </el-breadcrumb>
 </template>
 <script setup lang="ts">
 import type { RouteLocationMatched } from 'vue-router'

@@ -1,5 +1,5 @@
 import axios, { InternalAxiosRequestConfig, AxiosResponse } from 'axios'
-import { message } from 'ant-design-vue'
+import { useNotification } from '@/hoosk'
 interface IResult {
   data: any
   msg: string
@@ -10,7 +10,7 @@ const service = axios.create({
   timeout: 5000,
 })
 const showError = (msg: string) => {
-  message.error(msg || '请求失败！！！')
+  useNotification('登录失败', msg || '请求失败！！！', 'error')
 }
 service.interceptors.request.use(
   (config: InternalAxiosRequestConfig<IResult>) => {

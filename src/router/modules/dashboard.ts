@@ -1,5 +1,4 @@
-import Layout from '@/views/layout/index.vue'
-import { PieChartOutlined } from '@ant-design/icons-vue'
+import Layout from '@/layout/index.vue'
 
 export default [
   {
@@ -7,13 +6,13 @@ export default [
     name: 'layout',
     component: Layout,
     hasOnlyOneChildren: true,
-    meta: { title: 'dashboard', icon: PieChartOutlined },
+    meta: { title: 'dashboard', icon: 'User' },
     children: [
       {
         path: '/index',
         name: 'dashboard',
         component: () => import('@/views/dashboard/index.vue'),
-        meta: { title: '工作台', icon: PieChartOutlined },
+        meta: { title: '工作台', icon: 'User' },
       },
     ],
   },

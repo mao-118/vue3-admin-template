@@ -1,15 +1,14 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
-import '@/plugins/antDesign'
 import './styles/index.scss'
 import DirectivePlugins from '@/directives'
 import 'virtual:svg-icons-register' //svg
-// import * as antIcons from '@ant-design/icons-vue'
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+import { pinia } from '@/store'
 const app = createApp(App)
-// const icons: any = antIcons
-// // 注册图标
-// Object.keys(icons).forEach((key: string) => {
-//   app.component(key, icons[key])
-// })
-app.use(DirectivePlugins).use(router).mount('#app')
+
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+  app.component(key, component)
+}
+app.use(DirectivePlugins).use(pinia).use(router).mount('#app')

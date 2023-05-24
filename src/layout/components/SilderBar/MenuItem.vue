@@ -1,25 +1,23 @@
 <template>
-  <a-sub-menu v-if="showSubMenu(route)" :key="route.path">
-    <template #icon>
-      <component :is="route.meta?.icon" />
-    </template>
+  <el-sub-menu v-if="showSubMenu(route)" :index="route.path">
     <template #title>
+      <el-icon><component :is="route.meta?.icon" /></el-icon>
       <span>{{ route.meta?.title }}</span>
     </template>
     <MenuItem v-for="item in route.children" :key="item.path" :route="item" />
-  </a-sub-menu>
+  </el-sub-menu>
   <!-- 只有一个子级时，直接显示子级，不显示父级 -->
   <MenuItem
     v-else-if="!route.hidden && route.hasOnlyOneChildren && route.children && route.children.length === 1"
     :route="route.children[0]"
   />
   <template v-else-if="(!route.hidden && !route.children) || route.children.length === 0">
-    <a-menu-item :key="route.path">
-      <template #icon>
-        <component :is="route.meta?.icon" />
+    <el-menu-item :index="route.path">
+      <el-icon><component :is="route.meta?.icon" /></el-icon>
+      <template #title>
+        <span>{{ route.meta?.title }}</span>
       </template>
-      <span>{{ route.meta?.title }}</span>
-    </a-menu-item>
+    </el-menu-item>
   </template>
 </template>
 <script lang="ts" setup>

@@ -1,10 +1,9 @@
-import Layout from '@/views/layout/index.vue'
-import { PieChartOutlined } from '@ant-design/icons-vue'
+import Layout from '@/layout/index.vue'
 export default {
   path: '/demo',
   name: 'demo',
   component: Layout,
-  meta: { title: '案例', icon: PieChartOutlined },
+  meta: { title: '案例', icon: 'User' },
   children: [
     {
       path: '/demo/map',

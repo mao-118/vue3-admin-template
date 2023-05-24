@@ -7,155 +7,150 @@
       </div>
       <div class="tips text-center mt-2">中小型后台解决方案</div>
       <div class="login-box mt-6">
-        <a-tabs v-model:activeKey="activeKey" centered>
-          <a-tab-pane :key="1" tab="账号密码登陆"></a-tab-pane>
-          <a-tab-pane :key="2" tab="手机号登陆"></a-tab-pane>
-        </a-tabs>
-        <a-form
-          :model="formState"
-          name="basic"
-          :wrapper-col="{ span: 24 }"
-          autocomplete="off"
-          @finish="onFinish"
-          @finishFailed="onFinishFailed"
-        >
+        <el-tabs v-model="activeKey" centered>
+          <el-tab-pane label="账号密码登陆" :name="1"></el-tab-pane>
+          <el-tab-pane label="手机号登陆" :name="2"></el-tab-pane>
+        </el-tabs>
+        <el-form ref="ruleForm" :model="formState" :rules="rules">
           <template v-if="activeKey === 1">
-            <a-form-item name="username" :rules="[{ required: true, message: '请输入用户名!' }]">
-              <a-input v-model:value="formState.username" placeholder="用户名: admin or user">
-                <template #prefix> <UserOutlined class="site-form-item-icon" /> </template
-              ></a-input>
-            </a-form-item>
+            <el-form-item prop="username">
+              <el-input v-model="formState.username" :prefix-icon="User" placeholder="用户名: admin or user">
+              </el-input>
+            </el-form-item>
 
-            <a-form-item name="password" :rules="[{ required: true, message: '请输入密码!' }]">
-              <a-input-password v-model:value="formState.password" placeholder="密码: 123456">
-                <template #prefix>
-                  <LockOutlined class="site-form-item-icon" />
-                </template>
-              </a-input-password>
-            </a-form-item>
+            <el-form-item prop="password">
+              <el-input
+                v-model="formState.password"
+                :prefix-icon="Lock"
+                type="password"
+                placeholder="密码: 123456"
+                show-password
+                @keyup.enter="onSubmit"
+              />
+            </el-form-item>
           </template>
           <template v-else>
-            <a-form-item name="mobile" :rules="[{ required: true, message: '请输入手机号!' }]">
-              <a-input v-model:value="formState.mobile" placeholder="请输入手机号!">
-                <template #prefix> <MobileOutlined class="site-form-item-icon" /> </template
-              ></a-input>
-            </a-form-item>
-            <a-form-item
-              name="msgCode"
-              :wrapper-col="{ span: 24 }"
-              :rules="[{ required: true, message: '请输入验证码!' }]"
-            >
+            <el-form-item prop="mobile">
+              <el-input v-model="formState.mobile" :prefix-icon="Iphone" placeholder="请输入手机号!"> </el-input>
+            </el-form-item>
+            <el-form-item prop="msgCode">
               <div class="flex justify-between items-center">
-                <a-input v-model:value="formState.msgCode" placeholder="请输入验证码!">
-                  <template #prefix> <LockOutlined class="site-form-item-icon" /> </template
-                ></a-input>
-                <a-button
+                <el-input
+                  v-model="formState.msgCode"
+                  :prefix-icon="Lock"
+                  placeholder="请输入验证码!"
+                  @keyup.enter="onSubmit"
+                >
+                </el-input>
+                <el-button
                   class="ml-2"
                   style="height: 40px"
                   :loading="msgLoading"
                   :disabled="time !== 60"
                   @click="sendMsg"
                 >
-                  {{ time === 60 ? `获取验证码` : `${time}s后重新获取` }}</a-button
+                  {{ time === 60 ? `获取验证码` : `${time}s后重新获取` }}</el-button
                 >
               </div>
-            </a-form-item>
+            </el-form-item>
           </template>
 
-          <a-form-item name="remember" :wrapper-col="{ span: 24 }">
-            <div class="flex justify-between items-center">
-              <a-checkbox v-model:checked="formState.remember">自动登陆</a-checkbox>
+          <el-form-item>
+            <div class="w-full flex justify-between items-center">
+              <el-checkbox v-model="formState.remember">自动登陆</el-checkbox>
               <a class="login-form-forgot" href="javascript:void(0)">忘记密码?</a>
             </div>
-          </a-form-item>
+          </el-form-item>
 
-          <a-form-item :wrapper-col="{ span: 24 }">
-            <a-button :loading="loading" class="w-full" style="height: 40px" type="primary" html-type="submit"
-              >登陆</a-button
+          <el-form-item>
+            <el-button :loading="loading" class="w-full" style="height: 40px" type="primary" @click="onSubmit"
+              >登陆</el-button
             >
-          </a-form-item>
-          <a-form-item :wrapper-col="{ span: 24 }">
+          </el-form-item>
+          <el-form-item>
             <div class="flex items-center">
               <span class="tips mr-2">其他登陆方式: </span>
-              <div class="icon-list">
-                <alipay-circle-outlined
+              <div class="icon-list flex">
+                <svg-icon
+                  v-for="item in iconList"
+                  :key="item.name"
                   class="cursor-pointer mr-2"
-                  :style="{ fontSize: '24px', color: 'rgba(0,0,0,.2)' }"
-                />
-                <taobao-circle-outlined
-                  class="cursor-pointer mr-2"
-                  :style="{ fontSize: '24px', color: 'rgba(0,0,0,.2)' }"
-                />
-                <weibo-circle-outlined
-                  class="cursor-pointer mr-2"
-                  :style="{ fontSize: '24px', color: 'rgba(0,0,0,.2)' }"
+                  :name="item.name"
+                  :color="item.enter ? '#1890ff' : ''"
+                  @mouseenter="item.enter = true"
+                  @mouseleave="item.enter = false"
                 />
               </div>
             </div>
-          </a-form-item>
-        </a-form>
+          </el-form-item>
+        </el-form>
       </div>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
 import { useUserStore } from '@/store'
-import { message } from 'ant-design-vue'
-import { ILogin } from './type'
 import { loginApi } from '@/api/user'
 import { getTime } from '@/utils'
-import {
-  UserOutlined,
-  LockOutlined,
-  MobileOutlined,
-  AlipayCircleOutlined,
-  TaobaoCircleOutlined,
-  WeiboCircleOutlined,
-} from '@ant-design/icons-vue'
+import { Lock, User, Iphone } from '@element-plus/icons-vue'
+import { LOGIN } from '@/api/types'
+import { useNotification, useMessage } from '@/hoosk'
 const activeKey = ref(1)
-interface IFormState {
-  username: string
-  password: string
-  mobile: string
-  msgCode: string
-  remember: boolean
-}
-const formState = reactive<IFormState>({
+const iconList = reactive([
+  { name: 'qq', enter: false },
+  { name: 'wechat', enter: false },
+  { name: 'weibo', enter: false },
+])
+const formState = reactive<LOGIN.IFormState>({
   username: '',
   password: '',
   mobile: '',
   msgCode: '',
   remember: true,
 })
+const rules = reactive({
+  username: [{ required: true, trigger: 'blur', message: '请输入用户名!' }],
+  password: [{ required: true, trigger: 'blur', message: '请输入密码!' }],
+  mobile: [{ required: true, trigger: 'blur', message: '请输入手机号!' }],
+  msgCode: [{ required: true, trigger: 'blur', message: '请输入验证码!' }],
+})
 const userStore = useUserStore()
 const router = useRouter()
 const loading = ref(false)
-const onFinish = (values: IFormState) => {
-  loading.value = true
-  const { username, password } = values
-  const loginForm: ILogin = { username, password, type: activeKey.value }
-  setTimeout(async () => {
-    const { data } = await loginApi<ILogin>(loginForm).finally(() => {
-      loading.value = false
-    })
-    userStore.setUserInfo(data)
-    const msg = getTime()
-    router.push('/').then(() => {
-      message.success(`${msg}，欢迎你${data.username}！`)
-    })
-  }, 1000)
+const ruleForm = ref()
+const onSubmit = async () => {
+  if (!ruleForm.value) return
+  await ruleForm.value.validate((valid: any, fields: any) => {
+    if (valid) {
+      loading.value = true
+      const loginForm: LOGIN.ILogin = {
+        username: formState.username,
+        password: formState.password,
+        type: activeKey.value,
+      }
+      setTimeout(async () => {
+        const { data } = await loginApi<LOGIN.ILogin>(loginForm).finally(() => {
+          loading.value = false
+        })
+        userStore.setUserInfo(data)
+        const msg = getTime()
+        router.push('/').then(() => {
+          useNotification('登录成功', `${msg}，欢迎你${data.username}！`, 'success')
+        })
+      }, 1000)
+    } else {
+      console.log('error submit!', fields)
+    }
+  })
 }
 
-const onFinishFailed = (errorInfo: any) => {
-  console.log('Failed:', errorInfo)
-}
 const msgLoading = ref(false)
 const time = ref(60)
 const timer = ref(0)
 const sendMsg = () => {
   msgLoading.value = true
   setTimeout(() => {
-    message.success('短信已发送至手机,请注意查收!')
+    useMessage('短信已发送至手机,请注意查收!')
     msgLoading.value = false
     time.value--
     timer.value = window.setInterval(() => {
@@ -193,17 +188,16 @@ const sendMsg = () => {
         font-weight: 600;
       }
     }
-    ::v-deep(.ant-input) {
-      height: 32px;
+    ::v-deep(.el-input) {
+      height: 40px;
     }
     .tips {
       color: rgba(0, 0, 0, 0.5);
     }
-    .icon-list {
-      .anticon:hover {
-        color: #1890ff !important;
-      }
-    }
   }
+}
+:deep(.el-tabs__nav-scroll) {
+  display: flex;
+  justify-content: center;
 }
 </style>
