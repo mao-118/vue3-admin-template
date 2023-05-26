@@ -1,13 +1,19 @@
 <template>
   <div class="data">
-    <a-card title="数据/指数">
+    <el-card>
+      <template #header>
+        <div class="flex justify-between">
+          <h3>数据 / 指数</h3>
+        </div>
+      </template>
       <div id="main" ref="main"></div>
-    </a-card>
+    </el-card>
   </div>
 </template>
 <script lang="ts" setup>
-import * as echarts from 'echarts'
-const options = reactive<echarts.EChartsOption>({
+import { useEcharts } from '@/hoosk'
+import type { EChartsOption } from 'echarts'
+const options: EChartsOption = {
   title: {
     text: '',
   },
@@ -51,26 +57,18 @@ const options = reactive<echarts.EChartsOption>({
       ],
     },
   ],
-})
+}
 const main = ref()
-let myChart: echarts.ECharts | null = null
-const initEcharts = () => {
-  myChart = echarts.init(main.value)
-  myChart.setOption(options)
-}
-const resize = () => {
-  myChart && myChart.resize()
-}
+
 onMounted(() => {
-  initEcharts()
-  window.addEventListener('resize', resize)
-})
-onUnmounted(() => {
-  window.removeEventListener('resize', resize)
+  useEcharts(main.value, options)
 })
 </script>
 <style scoped>
 #main {
   height: 500px;
+}
+.el-card {
+  margin-bottom: 20px;
 }
 </style>

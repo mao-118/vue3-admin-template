@@ -1,32 +1,56 @@
 <template>
   <div class="fast-tags">
-    <a-card title="快速开始 / 便捷导航">
-      <div>
-        <a-tag color="success">success</a-tag>
-        <a-tag color="processing">processing</a-tag>
-        <a-tag color="error">error</a-tag>
-        <a-tag color="warning">warning</a-tag>
-        <a-tag color="default">default</a-tag>
-        <a-tag color="pink">pink</a-tag>
-        <a-tag color="red">red</a-tag>
-        <a-tag color="orange">orange</a-tag>
-        <a-tag color="green">green</a-tag>
-        <a-tag color="cyan">cyan</a-tag>
-        <a-tag color="blue">blue</a-tag>
-        <a-tag color="purple">purple</a-tag>
-        <a-tag style="background: #fff; border-style: dashed; cursor: pointer">
-          <plus-outlined />
-          New Tag
-        </a-tag>
+    <el-card>
+      <template #header>
+        <div class="flex justify-between">
+          <h3>快速开始 / 便捷导航</h3>
+        </div>
+      </template>
+      <div class="tag-group my-2 flex flex-wrap gap-1 items-center">
+        <span class="tag-group__title m-1 line-height-2">Dark</span>
+        <el-tag v-for="item in items" :key="item.label" :type="item.type" class="mx-1" effect="dark">
+          {{ item.label }}
+        </el-tag>
+        <el-tag v-for="item in items" :key="item.label" :type="item.type" class="mx-1" effect="dark" closable>
+          {{ item.label }}
+        </el-tag>
       </div>
-    </a-card>
+      <div class="tag-group my-2 flex flex-wrap gap-1 items-center">
+        <span class="tag-group__title m-1">Light</span>
+        <el-tag v-for="item in items" :key="item.label" class="mx-1" :type="item.type" effect="light">
+          {{ item.label }}
+        </el-tag>
+        <el-tag v-for="item in items" :key="item.label" class="mx-1" :type="item.type" effect="light" closable>
+          {{ item.label }}
+        </el-tag>
+      </div>
+      <div class="tag-group my-2 flex flex-wrap gap-1 items-center">
+        <span class="tag-group__title m-1">Plain</span>
+        <el-tag v-for="item in items" :key="item.label" class="mx-1" :type="item.type" effect="plain">
+          {{ item.label }}
+        </el-tag>
+        <el-tag v-for="item in items" :key="item.label" class="mx-1" :type="item.type" effect="plain" closable>
+          {{ item.label }}
+        </el-tag>
+      </div>
+    </el-card>
   </div>
 </template>
-<script setup lang="ts">
-import { PlusOutlined } from '@ant-design/icons-vue'
+<script lang="ts" setup>
+import type { TagProps } from 'element-plus'
+
+type Item = { type: TagProps['type']; label: string }
+
+const items = ref<Array<Item>>([
+  { type: '', label: 'Tag 1' },
+  { type: 'success', label: 'Tag 2' },
+  { type: 'info', label: 'Tag 3' },
+  { type: 'danger', label: 'Tag 4' },
+  { type: 'warning', label: 'Tag 5' },
+])
 </script>
 <style scoped>
-.ant-tag {
-  margin-bottom: 10px;
+.el-card {
+  margin-bottom: 20px;
 }
 </style>

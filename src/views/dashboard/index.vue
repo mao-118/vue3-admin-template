@@ -3,11 +3,7 @@
     <div class="title mb-4">工作台</div>
     <div class="header-content flex justify-between">
       <div class="left flex">
-        <a-avatar :size="64">
-          <template #icon>
-            <img src="https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png" alt="" />
-          </template>
-        </a-avatar>
+        <el-avatar :size="64" src="https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png"> </el-avatar>
         <div class="info flex flex-col ml-4 justify-center">
           <span class="mb-2 text-2xl">早安,吴彦祖,祝你开心每一天!</span>
           <span class="text-gray-500">前端专家 | xx部门-xx公司</span>
@@ -32,17 +28,17 @@
     </div>
   </div>
   <div class="main-content">
-    <a-row :gutter="16">
-      <a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="14" :xxl="14" :xxxl="14">
+    <el-row :gutter="16">
+      <el-col :xs="24" :sm="24" :md="24" :lg="14" :xl="14" :xxl="14" :xxxl="14">
         <MyProject />
         <MyDynamic />
-      </a-col>
-      <a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="10" :xxl="10" :xxxl="10">
+      </el-col>
+      <el-col :xs="24" :sm="24" :md="24" :lg="10" :xl="10" :xxl="10" :xxxl="10">
         <FastTags />
         <MyData />
         <MyTeam />
-      </a-col>
-    </a-row>
+      </el-col>
+    </el-row>
   </div>
 </template>
 <script setup lang="ts">

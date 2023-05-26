@@ -1,2 +1,3 @@
 import { useMessage, useNotification } from './useElementPlus'
-export { useMessage, useNotification }
+import { useEcharts } from './useEcharts'
+export { useMessage, useNotification, useEcharts }

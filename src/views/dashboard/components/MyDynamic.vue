@@ -1,25 +1,28 @@
 <template>
   <div class="dynamic">
-    <a-card title="动态">
-      <a-list class="demo-loadmore-list" item-layout="horizontal" :data-source="listData">
-        <template #renderItem="{ item }">
-          <a-list-item>
-            <template #actions>
-              <a key="list-loadmore-edit">edit</a>
+    <el-card>
+      <template #header>
+        <div class="flex justify-between">
+          <h3>动态</h3>
+        </div>
+      </template>
+      <div class="info-list">
+        <div v-for="(item, index) in listData" :key="index" class="info-item">
+          <div class="flex justify-between px-6 items-center">
+            <el-avatar :size="64" :src="item.avatar" class="mr-4"></el-avatar>
+            <div class="flex-1">
+              <h4>{{ item.title }}</h4>
+              <span>{{ item.description }}</span>
+            </div>
+            <div>
+              <a key="list-loadmore-edit" class="mr-2">edit</a>
               <a key="list-loadmore-more">more</a>
-            </template>
-            <a-list-item-meta :description="item.description">
-              <template #title>
-                <a href="javascript:void(0)">{{ item.title }}</a>
-              </template>
-              <template #avatar>
-                <a-avatar :src="item.avatar" />
-              </template>
-            </a-list-item-meta>
-          </a-list-item>
-        </template>
-      </a-list>
-    </a-card>
+            </div>
+          </div>
+          <el-divider />
+        </div>
+      </div>
+    </el-card>
   </div>
 </template>
 <script setup lang="ts">
@@ -37,3 +40,8 @@ for (let i = 0; i < 9; i++) {
   })
 }
 </script>
+<style scoped>
+.el-card {
+  margin-bottom: 20px;
+}
+</style>
