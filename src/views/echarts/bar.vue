@@ -5,7 +5,8 @@
 </template>
 <script setup lang="ts">
 import { useEcharts } from '@/hooks'
-const option = {
+import type { EChartsOption } from 'echarts'
+const option: EChartsOption = {
   title: {
     text: '柱状图',
   },

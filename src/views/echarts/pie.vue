@@ -5,6 +5,7 @@
 </template>
 <script setup lang="ts">
 import { useEcharts } from '@/hooks'
+import type { EChartsOption } from 'echarts'
 function genData(count: number) {
   // prettier-ignore
   const nameList = [
@@ -34,7 +35,7 @@ function genData(count: number) {
   }
 }
 const data = genData(50)
-const option = {
+const option: EChartsOption = {
   title: {
     text: '同名数量统计',
     subtext: '纯属虚构',

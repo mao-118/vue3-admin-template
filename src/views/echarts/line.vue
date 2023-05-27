@@ -5,8 +5,8 @@
 </template>
 <script setup lang="ts">
 import { useEcharts } from '@/hooks'
-import * as echarts from 'echarts'
-const option = {
+import type { EChartsOption } from 'echarts'
+const option: EChartsOption = {
   color: ['#80FFA5', '#00DDFF', '#37A2FF', '#FF0087', '#FFBF00'],
   title: {
     text: 'Gradient Stacked Area Chart',
