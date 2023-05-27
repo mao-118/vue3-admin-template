@@ -1,5 +1,5 @@
 import axios, { InternalAxiosRequestConfig, AxiosResponse } from 'axios'
-import { useNotification } from '@/hoosk'
+import { useNotification } from '@/hooks'
 interface IResult {
   data: any
   msg: string

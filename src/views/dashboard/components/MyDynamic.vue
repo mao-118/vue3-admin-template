@@ -15,8 +15,8 @@
               <span>{{ item.description }}</span>
             </div>
             <div>
-              <a key="list-loadmore-edit" class="mr-2">edit</a>
-              <a key="list-loadmore-more">more</a>
+              <a key="list-loadmore-edit" class="mr-2 cursor-pointer text-blue-500">edit</a>
+              <a key="list-loadmore-more" class="cursor-pointer text-blue-500">more</a>
             </div>
           </div>
           <el-divider />

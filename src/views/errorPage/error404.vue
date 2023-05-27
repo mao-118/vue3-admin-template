@@ -1,9 +1,7 @@
 <template>
-  <a-result status="404" title="404" sub-title="Sorry, the page you visited does not exist.">
-    <template #extra>
-      <a-button type="primary" @click="goHome">Back Home</a-button>
-    </template>
-  </a-result>
+  <el-empty description="404">
+    <el-button type="primary" @click="goHome">home</el-button>
+  </el-empty>
 </template>
 <script setup lang="ts">
 const router = useRouter()

@@ -94,7 +94,7 @@ import { loginApi } from '@/api/user'
 import { getTime } from '@/utils'
 import { Lock, User, Iphone } from '@element-plus/icons-vue'
 import { LOGIN } from '@/api/types'
-import { useNotification, useMessage } from '@/hoosk'
+import { useNotification, useMessage } from '@/hooks'
 const activeKey = ref(1)
 const iconList = reactive([
   { name: 'qq', enter: false },
@@ -148,6 +148,7 @@ const msgLoading = ref(false)
 const time = ref(60)
 const timer = ref(0)
 const sendMsg = () => {
+  if (!formState.mobile) return useMessage('请先输入手机号', 'warning')
   msgLoading.value = true
   setTimeout(() => {
     useMessage('短信已发送至手机,请注意查收!')
@@ -167,7 +168,7 @@ const sendMsg = () => {
 .login-container {
   width: 100%;
   height: 100vh;
-  background-color: #f0f2f5;
+  // background-color: #f0f2f5;
   .login-content {
     width: 328px;
     position: absolute;
@@ -184,15 +185,11 @@ const sendMsg = () => {
       }
       span {
         font-size: 33px;
-        color: #000;
         font-weight: 600;
       }
     }
     ::v-deep(.el-input) {
       height: 40px;
-    }
-    .tips {
-      color: rgba(0, 0, 0, 0.5);
     }
   }
 }

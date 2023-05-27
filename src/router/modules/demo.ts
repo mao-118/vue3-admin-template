@@ -5,12 +5,7 @@ export default {
   component: Layout,
   meta: { title: '案例', icon: 'User' },
   children: [
-    {
-      path: '/demo/map',
-      name: 'map',
-      meta: { title: 'map' },
-      component: () => import('@/views/demo/map.vue'),
-    },
+
     {
       path: '/demo/imgLazy',
       name: 'imgLazy',
@@ -23,29 +18,25 @@ export default {
       meta: { title: '拖拽' },
       component: () => import('@/views/demo/draggable.vue'),
     },
-    {
-      path: '/demo/base64',
-      name: 'base64',
-      meta: { title: 'base64' },
-      component: () => import('@/views/demo/base64.vue'),
-    },
+
     {
       path: '/demo/useIcon',
       name: 'useIcon',
       meta: { title: 'useIcon' },
       component: () => import('@/views/demo/useIcon.vue'),
     },
-    {
-      path: '/demo/userMedia',
-      name: 'userMedia',
-      meta: { title: '用户媒体' },
-      component: () => import('@/views/demo/userMedia.vue'),
-    },
+
     {
       path: '/demo/svgIcon',
       name: 'svgIcon',
       meta: { title: 'svgIcon' },
       component: () => import('@/views/demo/svgIcon.vue'),
+    },
+    {
+      path: '/demo/table',
+      name: 'table',
+      meta: { title: 'table' },
+      component: () => import('@/views/demo/table.vue'),
     },
   ],
 }

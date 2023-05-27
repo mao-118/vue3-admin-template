@@ -2,7 +2,7 @@
   <div class="project">
     <el-card>
       <template #header>
-        <div class="flex justify-between">
+        <div class="flex justify-between items-center">
           <h3>进行中的项目</h3>
           <a href="#">全部项目</a>
         </div>

@@ -1,6 +1,6 @@
 <template>
   <div class="layout-header">
-    <div class="flex justify-between items-center box-border bg-white">
+    <div class="flex justify-between items-center box-border">
       <div class="flex items-center">
         <el-icon size="25" class="cursor-pointer" @click="layoutStore.setCollapse(!layoutStore.isCollapse)">
           <Expand v-if="layoutStore.isCollapse" />
@@ -10,6 +10,7 @@
         <Breadcrumb />
       </div>
       <div class="nav-list flex justify-end items-center">
+        <!-- 搜索 -->
         <div class="mr-6 flex items-center">
           <svg-icon name="search" class="cursor-pointer" @click="showSearch" />
           <div class="search-select" :style="{ width: show ? 0 : '203px' }">
@@ -18,8 +19,10 @@
             </el-select>
           </div>
         </div>
+        <!-- 疑问 -->
         <svg-icon class="cursor-pointer" name="question" />
         <div class="mr-8">
+          <!-- 消息 -->
           <el-dropdown trigger="click" placement="bottom">
             <el-badge :value="12" class="ml-4 mt-1">
               <svg-icon class="cursor-pointer" name="bell" />
@@ -58,29 +61,56 @@
             </template>
           </el-dropdown>
         </div>
-
+        <!-- 设置 -->
+        <div class="mr-8">
+          <el-dropdown trigger="click" placement="bottom">
+            <div>
+              <svg-icon class="cursor-pointer" name="setting" />
+            </div>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item>
+                  <div class="flex items-center">
+                    <span class="mt-1">模式：</span>
+                    <el-switch
+                      v-model="isDark"
+                      class="mt-2"
+                      inline-prompt
+                      :active-icon="Moon"
+                      :inactive-icon="Sunny"
+                      @change="changeDark"
+                    />
+                  </div>
+                </el-dropdown-item>
+                <el-dropdown-item>
+                  <div class="flex items-center">
+                    <span class="mt-1">主题：</span>
+                    <el-color-picker v-model="color" @change="colorChange" />
+                  </div>
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+        </div>
+        <!-- 用户信息 -->
         <div class="nav-item">
           <el-dropdown trigger="hover" placement="bottom">
-            <a class="ant-dropdown-link" @click.prevent>
-              <a-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></a-avatar>
-              <span class="ml-2">Admin</span>
-            </a>
+            <div class="flex items-center">
+              <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+              <span class="ml-2 text-blue-500">Admin</span>
+            </div>
             <template #dropdown>
-              <div class="my-dropdown">
-                <div class="h-8 cursor-pointer flex items-center">
-                  <el-icon><User /></el-icon>
-                  <span class="ml-2">个人中心</span>
-                </div>
-                <div class="h-8 cursor-pointer flex items-center">
-                  <el-icon><Setting /></el-icon>
-                  <span class="ml-2">个人设置</span>
-                </div>
-                <a-menu-divider />
-                <div class="h-8 cursor-pointer flex items-center" @click="logout">
-                  <el-icon><SwitchButton /></el-icon>
-                  <span class="ml-2">退出</span>
-                </div>
-              </div>
+              <el-dropdown-menu>
+                <el-dropdown-item :icon="User">
+                  <span>个人中心</span>
+                </el-dropdown-item>
+                <el-dropdown-item :icon="Setting">
+                  <span>个人设置</span>
+                </el-dropdown-item>
+                <el-dropdown-item divided :icon="SwitchButton" @click.stop="logout">
+                  <span>退出</span>
+                </el-dropdown-item>
+              </el-dropdown-menu>
             </template>
           </el-dropdown>
         </div>
@@ -91,8 +121,9 @@
 <script lang="ts" setup>
 import { logoutApi } from '@/api/user'
 import { useUserStore, useLayoutStore } from '@/store'
-import Breadcrumb from './Breadcrumb.vue'
-import { useMessage } from '@/hoosk'
+import Breadcrumb from '../Breadcrumb.vue'
+import { useMessage } from '@/hooks'
+import { Sunny, Moon, User, Setting, SwitchButton } from '@element-plus/icons-vue'
 const layoutStore = useLayoutStore()
 const value = ref()
 const data = ref<any[]>([
@@ -125,7 +156,7 @@ const readList = reactive<number[]>([])
 const tabPane = reactive([
   { value: 1, label: '通知' },
   { value: 2, label: '消息' },
-  { value: 3, label: '代办' },
+  { value: 3, label: '待办' },
 ])
 const dataList: DataItem[] = reactive([])
 for (let index = 0; index < 5; index++) {
@@ -135,6 +166,29 @@ for (let index = 0; index < 5; index++) {
     img: 'https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png',
     subTitle: '6年前',
   })
+}
+
+const isDark = ref(false)
+const changeDark = (v: string | number | boolean) => {
+  const html = document.getElementsByTagName('html')[0]
+
+  if (v) {
+    html.classList.add('dark')
+  } else {
+    html.classList.remove('dark')
+  }
+}
+const color = ref('#409EFF')
+const colorChange = (c: string | null) => {
+  // document.documentElement 是全局变量时
+  const el = document.documentElement
+  // const el = document.getElementById('xxx')
+
+  // 获取 css 变量
+  // getComputedStyle(el).getPropertyValue(`--el-color-primary`)
+
+  // 设置 css 变量
+  el.style.setProperty('--el-color-primary', c)
 }
 </script>
 <style scoped lang="scss">

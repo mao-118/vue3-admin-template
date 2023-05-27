@@ -9,7 +9,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { useEcharts } from '@/hoosk'
+import { useEcharts } from '@/hooks'
 import type { EChartsOption } from 'echarts'
 const options: EChartsOption = {
   title: {

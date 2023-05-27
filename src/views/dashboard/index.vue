@@ -51,7 +51,6 @@ import MyTeam from './components/MyTeam.vue'
 <style scoped lang="scss">
 .header {
   padding: 16px;
-  background-color: #fff;
   .title {
     font-size: 20px;
     font-weight: 600;

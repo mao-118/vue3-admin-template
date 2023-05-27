@@ -3,20 +3,20 @@
     <div class="app-container">
       <div>
         <p>将网站图标更改为</p>
-        <a-button
+        <el-button
           v-for="(item, index) in iconList"
           :key="index"
           :type="active === index ? 'primary' : 'default'"
           @click="handleClick(index)"
-          >{{ item.name }}</a-button
+          >{{ item.name }}</el-button
         >
       </div>
     </div>
   </BaseContainer>
 </template>
 <script setup lang="ts">
-import { message } from 'ant-design-vue'
 import { useFavicon } from '@vueuse/core'
+import { useMessage } from '@/hooks'
 const icon = useFavicon()
 const active = ref(0)
 const iconList = reactive([
@@ -32,6 +32,6 @@ const iconList = reactive([
 const handleClick = (index: number) => {
   active.value = index
   icon.value = iconList[index].icon
-  message.success('图片切换成功！')
+  useMessage('图片切换成功！')
 }
 </script>
